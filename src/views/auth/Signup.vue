@@ -1,6 +1,7 @@
 <template>
-    <form @submit.prevent="handleSubmit">
-      <h3>Login</h3>
+   <form @submit.prevent="handleSubmit">
+      <h3>Signup</h3>
+      <input type="text" placeholder="Display Name" v-model="displayName">
       <input type="email" placeholder="Email" v-model="email">
       <input type="password" placeholder="Password" v-model="password">
       <div v-if="error" class="error">{{ error }}</div>
@@ -10,23 +11,24 @@
 </template>
 
 <script>
-import useLogin from '@/composables/useLogin'
+import useSignup from '@/composables/useSignup'
 import { ref } from 'vue'
-export default {  
+export default {
   setup() {
-    const { error, login, isPending } = useLogin()
-
+    const { error, signup, isPending } = useSignup()
     const email = ref('')
     const password = ref('')
+    const displayName = ref('')
+    
 
     const handleSubmit = async () => {
-      const res = await login(email.value, password.value)
+      const res = await signup(email.value, password.value, displayName.value)
       if(!error.value) {
-        console.log('user logged in')
+        console.log('user is sign up!')
       }
     }
 
-    return { email, password, handleSubmit, error, isPending }
+    return { email, password, displayName, isPending, error, handleSubmit } 
   }
 }
 </script>
